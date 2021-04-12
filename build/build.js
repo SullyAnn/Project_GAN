@@ -3,11 +3,31 @@ var params = {
     Download_Image: function () { return save(); },
 };
 gui.add(params, "Download_Image");
+var img;
+var ai = new rw.HostedModel({
+    url: "https://brutalism-generator-f195936d.hosted-models.runwayml.cloud/v1/",
+    token: "5Wje5Ba1bM8sVUAClbxkhg==",
+});
 function draw() {
     background('white');
+    if (img)
+        image(img, 0, 0, width, height);
 }
 function setup() {
     p6_CreateCanvas();
+    var z = [];
+    for (var i = 0; i < 512; i++) {
+        z[i] = random(-0.5, 0.5);
+    }
+    var inputs = {
+        "z": z,
+        "truncation": 0.8,
+    };
+    ai.query(inputs).then(function (outputs) {
+        var image = outputs.image;
+        img = createImg(image);
+        img.hide();
+    });
 }
 function windowResized() {
     p6_ResizeCanvas();
