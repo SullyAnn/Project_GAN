@@ -13,9 +13,11 @@ gui.add(params, "Download_Image")
 let img: p5.Element
 
 const ai = new rw.HostedModel({
-    url: "https://brutalism-generator-f195936d.hosted-models.runwayml.cloud/v1/",
-    token: "5Wje5Ba1bM8sVUAClbxkhg==",
+    url: "https://colorful-clouds-229c190e.hosted-models.runwayml.cloud/v1/",
+    token: "b82QGM0T7U75VEKMCCE5tQ==",
   });
+
+let frameNB =0;
 
 // -------------------
 //       Drawing
@@ -32,20 +34,14 @@ function draw() {
       // model.info().then(info => console.log(info));
       
 
-}
-
 
 // -------------------
 //    Initialization
 // -------------------
 
-function setup() {
-    p6_CreateCanvas()
+const z = []
 
-    const z = []
-    for (let i = 0; i < 512; i++) {
-        z[i] = random(-0.5, 0.5)
-    }
+function make_request(){  
     const inputs = {
         "z": z,
         "truncation": 0.8,
@@ -54,7 +50,23 @@ function setup() {
         const { image } = outputs;
         img = createImg(image)
         img.hide()
+        z[0] += 0.5;
+
+       // p5.prototype.downloadFile(image, frameNB.toString(), "png")
+        //frameNB++;
+        make_request();
     });
+
+}
+
+function setup() {
+    p6_CreateCanvas()
+    for (let i = 0; i < 512; i++) {
+        z[i] = random(-0.5, 0.5);
+    }
+    make_request();
+
+
 }
 
 function windowResized() {
