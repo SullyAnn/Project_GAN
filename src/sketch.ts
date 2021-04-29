@@ -13,8 +13,8 @@ gui.add(params, "Download_Image")
 let img: p5.Element
 
 const ai = new rw.HostedModel({
-    url: "https://colorful-clouds-229c190e.hosted-models.runwayml.cloud/v1/",
-    token: "b82QGM0T7U75VEKMCCE5tQ==",
+    url: "https://brutalism-generator-194722e2.hosted-models.runwayml.cloud/v1/",
+    token: "/SJW5iQ5KuE5EuZe4VrSFQ==",
   });
 
 let frameNB =0;
@@ -24,15 +24,15 @@ let frameNB =0;
 // -------------------
 
 function draw() {
-    background('white');
-   
+    //background('white');
+
     if (img)
     image(img, 0, 0, width, height)
 }
-    
+
       //// You can use the info() method to see what type of input object the model expects
       // model.info().then(info => console.log(info));
-      
+
 
 
 // -------------------
@@ -41,19 +41,19 @@ function draw() {
 
 const z = []
 
-function make_request(){  
+function make_request(){
     const inputs = {
         "z": z,
-        "truncation": 0.8,
+        "truncation": 0.4,
     };
     ai.query(inputs).then(outputs => {
         const { image } = outputs;
         img = createImg(image)
         img.hide()
-        z[0] += 0.5;
+        z[0] += 0.3;
 
-       // p5.prototype.downloadFile(image, frameNB.toString(), "png")
-        //frameNB++;
+        p5.prototype.downloadFile(image, frameNB.toString(), "png")
+        frameNB++;
         make_request();
     });
 
@@ -62,7 +62,7 @@ function make_request(){
 function setup() {
     p6_CreateCanvas()
     for (let i = 0; i < 512; i++) {
-        z[i] = random(-0.5, 0.5);
+        z[i] = random(-0.5, 1);
     }
     make_request();
 
